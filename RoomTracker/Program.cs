@@ -4,6 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+//************************************
+//Title: (Room Tracker)
+//Application Type: (framework – Console, )
+//Description: (find total square footage )
+//Author: (VENYAMIN)
+//Date Created: (april 17)
+//Last Modified:(april 17)
+//************************************
+
 namespace RoomTracker
 {
     class Program
@@ -36,14 +45,14 @@ namespace RoomTracker
             myRoom.Name = "Living Room";
             myRoom.Length = 30;
             myRoom.Width = 30;
-            //myMonster.Mood = Monster.Attitude.happy;
+            
 
             Room yourRoom = new Room();
             yourRoom.Id = 2;
             yourRoom.Name = "Dinning room";
             yourRoom.Width = 57;
             yourRoom.Length = 30;
-            //yourRoom.Mood = Monster.Attitude.sad;
+            
 
             Room theirRoom = new Room(3, "Master Bedroom", 69, 42);
 
@@ -79,8 +88,8 @@ namespace RoomTracker
                 Console.WriteLine("\tb) View Room Details");
                 Console.WriteLine("\tc) Add Room");
                 Console.WriteLine("\td) Delete Room");
-                Console.WriteLine("\te) Update Monster");
-                //Console.WriteLine("\tf) Filter Monsters");
+                Console.WriteLine("\te) Update Rooms");
+                Console.WriteLine("\tf) Total Square Footage");
                 Console.WriteLine("\tq) Quit");
                 Console.Write("\t\tEnter Choice:");
                 menuChoice = Console.ReadLine().ToLower();
@@ -110,9 +119,9 @@ namespace RoomTracker
                         DisplayUpdateRooms(rooms);
                         break;
 
-                    //case "f":
-                        //DisplayFilterMonsters(monsters);
-                        //break;
+                    case "f":
+                        DisplayTotalSquareFootage(rooms);
+                        break;
 
                     case "q":
                         quitTalentShowMenu = true;
@@ -128,36 +137,29 @@ namespace RoomTracker
             } while (!quitTalentShowMenu);
         }
 
-        //static void DisplayFilterMonsters(List<Monster> monsters)
-        //{
-        //    DisplayScreenHeader("Filter Monsters");
+        static void DisplayTotalSquareFootage(List<Room> rooms)
+        {
+            foreach (Room room in rooms)
+            {
+                Console.WriteLine(
+                TAB +
+                room.Name.PadLeft(5)
+                );
+                double totalSquareFootage = 0;
+                totalSquareFootage += room.SquareFootage();
+                Console.WriteLine(
+                "Total Square Footage".PadLeft(10));
+                Console.Write("{0}", totalSquareFootage);
+                Console.WriteLine();
 
-        //    Console.WriteLine(TAB + "Alive Monsters");
-        //    //
-        //    // make temporary list for alive monsters
-        //    //
-        //    List<Monster> aliveMonsters = new List<Monster>();
 
-        //    //
-        //    // fill temporary list with alive monsters
-        //    //
-        //    foreach (Monster monster in monsters)
-        //    {
-        //        if (monster.IsAlive == true)
-        //        {
-        //            aliveMonsters.Add(monster);
-        //        }
-        //    }
-        //    aliveMonsters = monsters.Where(m => m.IsAlive == true).ToList();
-
-        //    //
-        //    // display table of alive monsters
-        //    //
-        //    Console.WriteLine();
-        //    DisplayMonsterTable(aliveMonsters);
-
-        //    DisplayContinuePrompt();
-        //}
+            }
+            
+            
+            DisplayContinuePrompt();
+            
+                
+        }
 
         static void DisplayUpdateRooms(List<Room> rooms)
         {
@@ -192,15 +194,11 @@ namespace RoomTracker
                 selectedRoom.Length = double.Parse(userResponse);
             }
 
-            //Console.Write(TAB + $"Mood: {selectedMonster.Mood} >");
-            //userResponse = Console.ReadLine();
-            //if (userResponse != "")
-            //{
-            //    Enum.TryParse(userResponse, out Monster.Attitude mood);
-            //    selectedMonster.Mood = mood;
-            //}
 
+
+            //DisplayMenuPrompt("Main");
             DisplayContinuePrompt();
+
         }
 
         static void DisplayDeleteRoom(List<Room> rooms)
@@ -227,7 +225,9 @@ namespace RoomTracker
             Console.WriteLine();
             Console.WriteLine(TAB + $"{selectedRoom.Name} has been deleted.");
 
+            //DisplayMenuPrompt("Main");
             DisplayContinuePrompt();
+
         }
 
         static void DisplayRoomsDetail(List<Room> rooms)
@@ -243,9 +243,11 @@ namespace RoomTracker
             Console.WriteLine(TAB + $"Name: {selectedRoom.Name}");
             Console.WriteLine(TAB + $"Width: {selectedRoom.Width}");
             Console.WriteLine(TAB + $"Length: {selectedRoom.Length}");
-            //Console.WriteLine(TAB + $"Mood: {selectedMonster.Mood}");
 
+
+            //DisplayMenuPrompt("Main");
             DisplayContinuePrompt();
+
         }
 
         static Room GetRoomsFromUser(List<Room> rooms)
@@ -253,7 +255,7 @@ namespace RoomTracker
             //
             // get monster id from user
             //
-            DisplayRoomTable(rooms);
+            //DisplayRoomTable(rooms);
             Console.Write(TAB + "Enter the Id of the room:");
             int id = int.Parse(Console.ReadLine());
 
@@ -296,13 +298,12 @@ namespace RoomTracker
             Console.Write(TAB + "Length:");
             newRoom.Length = double.Parse(Console.ReadLine());
 
-            //Console.Write(TAB + "Mood:");
-            //Enum.TryParse(Console.ReadLine(), out Monster.Attitude mood);
-            //newMonster.Mood = mood;
 
             rooms.Add(newRoom);
 
+            //DisplayMenuPrompt("Main");
             DisplayContinuePrompt();
+
         }
 
         /// <summary>
@@ -312,7 +313,33 @@ namespace RoomTracker
         static void DisplayAllRooms(List<Room> rooms)
         {
             DisplayScreenHeader("All Rooms");
-            DisplayRoomTable(rooms);
+            //DisplayRoomTable(rooms);
+            Console.WriteLine(
+                TAB +
+                "Id".PadLeft(5) +
+                "Name".PadLeft(15) +
+                "width".PadLeft(10) +
+                "length".PadLeft(10) +
+                "square footage".PadLeft(20)
+                );
+            Console.WriteLine(
+                TAB +
+                "---".PadLeft(5) +
+                "----".PadLeft(15) +
+                "-----".PadLeft(10) +
+                "------".PadLeft(10) +
+                "--------------".PadLeft(20)
+                );
+            foreach (Room room in rooms)
+                Console.WriteLine(
+                TAB +
+                room.Id.ToString().PadLeft(5) +
+                room.Name.PadLeft(15) +
+                room.Width.ToString().PadLeft(10) +
+                room.Length.ToString().PadLeft(10) +
+                room.SquareFootage().ToString().PadLeft(10)
+                );
+
             DisplayContinuePrompt();
         }
 
@@ -321,18 +348,18 @@ namespace RoomTracker
             Console.WriteLine(
                 TAB +
                 "Id".PadLeft(5) +
-                "Name".PadLeft(10) +
-                "width".PadLeft(6) +
-                "length".PadLeft(6) +
-                "Square Footage".PadLeft(6)
+                "Name".PadLeft(15) +
+                "width".PadLeft(10) +
+                "length".PadLeft(10) +
+                "square footage".PadLeft(20)
                 );
             Console.WriteLine(
                 TAB +
                 "---".PadLeft(5) +
-                "----".PadLeft(10) +
-                "---".PadLeft(6) +
-                "-----".PadLeft(6) +
-                "-----------".PadLeft(6)
+                "----".PadLeft(15) +
+                "-----".PadLeft(10) +
+                "------".PadLeft(10) +
+                "--------------".PadLeft(20)
                 );
             double totalSquareFootage = 0;
             foreach (Room room in rooms)
@@ -340,18 +367,23 @@ namespace RoomTracker
                 Console.WriteLine(
                 TAB +
                 room.Id.ToString().PadLeft(5) +
-                room.Name.PadLeft(10) +
-                room.Width.ToString().PadLeft(6) +
-                room.Length.ToString().PadLeft(6) +
-                room.SquareFootage().ToString().PadLeft(6)
+                room.Name.PadLeft(15) +
+                room.Width.ToString().PadLeft(10) +
+                room.Length.ToString().PadLeft(10) +
+                room.SquareFootage().ToString().PadLeft(10)
                 );
 
                 totalSquareFootage += room.SquareFootage();
                 Console.WriteLine(
-                TAB +
-                "Total Square Footage".PadLeft(5));
-                Console.WriteLine("{0}", totalSquareFootage);
+
+                "Total Square Footage".PadLeft(10));
+                Console.Write("{0}", totalSquareFootage);
+                Console.WriteLine();
+                
             }
+            //DisplayMenuPrompt("Main");
+            DisplayContinuePrompt();
+            
             
             
 
@@ -370,7 +402,7 @@ namespace RoomTracker
 
             Console.Clear();
             Console.WriteLine();
-            Console.WriteLine("\t\t\tMonster Tracker");
+            Console.WriteLine("\t\t\tRoom Tracker");
             Console.WriteLine();
             Console.WriteLine();
 
@@ -388,7 +420,7 @@ namespace RoomTracker
 
             Console.Clear();
             Console.WriteLine();
-            Console.WriteLine("\t\t\tThank you for using Monster Tracker!");
+            Console.WriteLine("\t\t\tThank you for using Room Tracker!");
             Console.WriteLine();
 
             DisplayContinuePrompt();
