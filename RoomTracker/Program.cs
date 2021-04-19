@@ -203,7 +203,7 @@ namespace RoomTracker
 
         static void DisplayDeleteRoom(List<Room> rooms)
         {
-            DisplayScreenHeader("Delete Monster");
+            DisplayScreenHeader("Delete Room");
 
             Room selectedRoom = GetRoomsFromUser(rooms);
 
